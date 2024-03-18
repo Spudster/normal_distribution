@@ -17,6 +17,10 @@
         public void IncrementCount()
             => _count++;
 
+        /// <summary>
+        /// End nodes act as channels where the balls land and are collected
+        /// </summary>
+        /// <param name="ball"></param>
         public void AddBallToChannel(Ball ball)
             => _balls.Add(ball);
 

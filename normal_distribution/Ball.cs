@@ -15,6 +15,9 @@
         public void AddPath(string p)
             => _pathTaken.Add(p);
 
+        /// <summary>
+        /// Replays the path taken by the ball during its run in the virtual GaltonBoard
+        /// </summary>
         public void ReplayPath()
         {
             Console.WriteLine($"ID: {_ballId}");

@@ -12,7 +12,7 @@ namespace NormalDistribution
         private readonly Random _random;
         private int _intervals;
 
-        public GaltonBoard(int rows, int balls)
+        public GaltonBoard(int rows = 14, int balls = 6000)
         {
             _random = new Random();
             _board = new List<List<Node>>();
@@ -22,6 +22,9 @@ namespace NormalDistribution
             BuildBoard();
         }
 
+        /// <summary>
+        /// Builds Galton Board based on rows and amount of balls given as parameter values
+        /// </summary>
         private void BuildBoard()
         {
             Console.WriteLine($"*** Building Galton Board with {_rows - 1} rows and {_balls} balls");
@@ -47,6 +50,11 @@ namespace NormalDistribution
             _boardBuilt = true;
         }
 
+        /// <summary>
+        /// Flips the board the amount of times given by 'interval' values.
+        /// Acts as a different run.
+        /// </summary>
+        /// <param name="intervals"></param>
         public void FlipBoard(int intervals = 1)
         {
             _intervals = intervals;
@@ -55,11 +63,14 @@ namespace NormalDistribution
             {
                 Console.WriteLine();
                 Console.WriteLine($"*** Flipping Board : {(i+1)}/{_intervals} times ***");
-                Run();
+                RunSimulation();
             }
         }
 
-        private void Run()
+        /// <summary>
+        /// Galton board Simulation per ball
+        /// </summary>
+        private void RunSimulation()
         {
             if (!_boardBuilt)
             {

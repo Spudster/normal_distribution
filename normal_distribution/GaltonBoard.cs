@@ -34,15 +34,15 @@ namespace NormalDistribution
 
             for (var i = 0; i < _rows; i++)
             {
-                var intervalsPerRows = i + 1;
-                var innerList = new List<Node>();
+                var nodesPerRow = i + 1;
+                var currentNodeRow = new List<Node>();
 
-                for (var j = 0; j < intervalsPerRows; j++)
+                for (var j = 0; j < nodesPerRow; j++)
                 {
-                    innerList.Add(new Node(new Coordinate { RowNumber = i, NodeNumber = j }));
+                    currentNodeRow.Add(new Node(new Coordinate { RowNumber = i, NodeNumber = j }));
                 }
 
-                _board.Add(innerList);
+                _board.Add(currentNodeRow);
             }
 
             sw.Stop();

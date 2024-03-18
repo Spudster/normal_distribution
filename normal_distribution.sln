@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NormalDistribution", "normal_distribution\NormalDistribution.csproj", "{8826872B-24E5-4104-ACC9-A79087EC0596}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GaltonBoard", "GaltonBoard", "{C2BC4FC2-056B-4A83-B3DD-0506D5968AF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8826872B-24E5-4104-ACC9-A79087EC0596} = {C2BC4FC2-056B-4A83-B3DD-0506D5968AF9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {072E6EEC-6FD7-4C77-B126-FEA7BB50C421}

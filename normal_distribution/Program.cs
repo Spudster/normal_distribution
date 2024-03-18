@@ -4,8 +4,8 @@
     {
         private static void Main()
         {
-            var gb = new GaltonBoard(20, 1);
-            gb.Flip(10);
+            var myGaltonBoard = new GaltonBoard(20, 1000000);
+            myGaltonBoard.FlipBoard(3);
         }
     }
 }

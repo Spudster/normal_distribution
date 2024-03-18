@@ -11,6 +11,7 @@ namespace NormalDistribution
         private bool _boardBuilt;
         private readonly Random _random;
         private int _intervals;
+
         public GaltonBoard(int rows, int balls)
         {
             _random = new Random();
@@ -46,7 +47,7 @@ namespace NormalDistribution
             _boardBuilt = true;
         }
 
-        public void Flip(int intervals = 1)
+        public void FlipBoard(int intervals = 1)
         {
             _intervals = intervals;
 
@@ -91,7 +92,7 @@ namespace NormalDistribution
                         {
                             vBall.AddCoordinate(currentNode.GetMyCoordinate());
                             currentNode.AddBallToChannel(vBall);
-                            currentNode.AddToCount();
+                            currentNode.IncrementCount();
                         }
                         continue;
                     }
@@ -194,7 +195,7 @@ namespace NormalDistribution
                 }
             }
 
-            var b = lestNode.GetBalls().First();
+            var b = lestNode.GetBallsInChannel().First();
             b.ReplayPath();
 
             //Console.WriteLine($"*** Printing path of Middle Channel ***");
@@ -202,7 +203,7 @@ namespace NormalDistribution
 
             //for (var i = 0; i < 3; i++)
             //{
-            //    var current = m.GetBalls()[i];
+            //    var current = m.GetBallsInChannel()[i];
             //    current.ReplayPath();
             //}
 

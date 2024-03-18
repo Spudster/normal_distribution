@@ -4,39 +4,39 @@
     {
         private int _count;
         private List<Ball> _balls = new();
-        private readonly List<Coordinate> _myNeighbors;
-        private readonly Coordinate _myCoordinate;
+        private readonly List<Coordinate> _nodeNeighbors;
+        private readonly Coordinate _nodeCoordinates;
 
         public Node(Coordinate coordinate)
         {
-            _myCoordinate = new Coordinate { RowNumber = coordinate.RowNumber, NodeNumber = coordinate.NodeNumber + 1 };
-            _myNeighbors = new List<Coordinate>();
-            CalculateNeighbors();
+            _nodeCoordinates = new Coordinate { RowNumber = coordinate.RowNumber, NodeNumber = coordinate.NodeNumber + 1 };
+            _nodeNeighbors = new List<Coordinate>();
+            CalculateNeighborCoordinates();
         }
 
-        public void AddToCount()
-            => _count += 1;
+        public void IncrementCount()
+            => _count++;
 
         public void AddBallToChannel(Ball ball)
             => _balls.Add(ball);
 
-        public List<Ball> GetBalls()
+        public List<Ball> GetBallsInChannel()
             => _balls;
 
-        public void CalculateNeighbors()
+        public void CalculateNeighborCoordinates()
         {
-            _myNeighbors.Add(new Coordinate { RowNumber = _myCoordinate.RowNumber + 1, NodeNumber = _myCoordinate.NodeNumber });
-            _myNeighbors.Add(new Coordinate { RowNumber = _myCoordinate.RowNumber + 1, NodeNumber = _myCoordinate.NodeNumber + 1 });
+            _nodeNeighbors.Add(new Coordinate { RowNumber = _nodeCoordinates.RowNumber + 1, NodeNumber = _nodeCoordinates.NodeNumber });
+            _nodeNeighbors.Add(new Coordinate { RowNumber = _nodeCoordinates.RowNumber + 1, NodeNumber = _nodeCoordinates.NodeNumber + 1 });
         }
 
         public Coordinate GetLeftNeighborCoordinate()
-            => _myNeighbors.First();
+            => _nodeNeighbors.First();
 
         public Coordinate GetRightNeighborCoordinate()
-            => _myNeighbors.Last();
+            => _nodeNeighbors.Last();
 
         public Coordinate GetMyCoordinate()
-            => _myCoordinate;
+            => _nodeCoordinates;
 
         public int GetCount()
             => _count;

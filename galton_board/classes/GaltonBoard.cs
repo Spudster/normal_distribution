@@ -81,7 +81,7 @@ namespace GaltonBoard.classes
         {
             if (!_boardBuilt)
             {
-                Console.WriteLine($"*** Galton Board has not been built yet");
+                Console.WriteLine("*** Galton Board has not been built yet");
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace GaltonBoard.classes
             }
 
             var channelCount = channels.Select(_ => _.GetCount()).Sum();
-            Console.WriteLine($"***********************************************");
+            Console.WriteLine("***********************************************");
             Console.WriteLine();
             Console.WriteLine($"{channelCount} Balls in channels");
 
@@ -198,7 +198,7 @@ namespace GaltonBoard.classes
         private void PrintLeastProbablyBall(IReadOnlyList<Node> ends)
         {
 
-            Console.WriteLine($"*** Printing path of a ball in the least Probably Channel ***");
+            Console.WriteLine("*** Printing path of a ball in the least Probably Channel ***");
 
             var channels = _board.Last();
             var middleChannel = channels.Count / 2;

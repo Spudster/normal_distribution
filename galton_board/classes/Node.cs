@@ -26,10 +26,10 @@
         public void AddBallToChannel(Ball ball)
             => _balls.Add(ball);
 
-        public List<Ball> GetBallsInChannel()
+        public IEnumerable<Ball> GetBallsInChannel()
             => _balls;
 
-        public void CalculateNeighborCoordinates()
+        private void CalculateNeighborCoordinates()
         {
             var nextRow = _nodeCoordinates.RowNumber + 1;
             var rightNeighbor = _nodeCoordinates.NodeNumber + 1;

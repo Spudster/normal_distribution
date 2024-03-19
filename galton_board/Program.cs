@@ -4,7 +4,7 @@
     {
         private static void Main()
         {
-            var myGaltonBoard = new GaltonBoard(20, 8000);
+            var myGaltonBoard = new GaltonBoard(14, 8000);
             myGaltonBoard.FlipBoard();
         }
     }

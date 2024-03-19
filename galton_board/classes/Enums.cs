@@ -1,6 +1,6 @@
-﻿namespace GaltonBoard
+﻿namespace GaltonBoard.classes
 {
-    public enum  Path
+    public enum Path
     {
         None,
         Left,

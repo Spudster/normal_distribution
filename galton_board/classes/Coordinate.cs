@@ -1,4 +1,4 @@
-﻿namespace GaltonBoard
+﻿namespace GaltonBoard.classes
 {
     internal class Coordinate
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 
-namespace GaltonBoard
+namespace GaltonBoard.classes
 {
     internal class GaltonBoard
     {
@@ -24,7 +24,7 @@ namespace GaltonBoard
 
             _random = new Random();
             _board = new List<List<Node>>();
-            _totalRows = (rows + 1);
+            _totalRows = rows + 1;
             _balls = balls;
             _ballsFloat = _balls;
             BuildBoard();
@@ -70,7 +70,7 @@ namespace GaltonBoard
             for (var i = 0; i < _intervals; i++)
             {
                 Console.WriteLine();
-                Console.WriteLine($"*** Flipping Board : {(i + 1)}/{_intervals} times ***");
+                Console.WriteLine($"*** Flipping Board : {i + 1}/{_intervals} times ***");
                 RunSimulation();
             }
         }
@@ -95,7 +95,7 @@ namespace GaltonBoard
 
             Parallel.For(0, _balls, _ =>
             {
-                Console.Write("\r{0}   ", $"{((ballsProcessed / _ballsFloat) * 100):n2}% done ");
+                Console.Write("\r{0}   ", $"{ballsProcessed / _ballsFloat * 100:n2}% done ");
 
                 var vBall = new Ball((int)ballsProcessed);
                 var currentNode = new Node(0, startNode.GetMyCoordinate());
@@ -123,19 +123,19 @@ namespace GaltonBoard
                     switch (currentRoll)
                     {
                         case Path.Left:
-                        {
-                            var leftCoordinate = currentNode.GetLeftNeighborCoordinate();
-                            currentNode = GetSpecificNode(leftCoordinate.RowNumber, leftCoordinate.NodeNumber);
-                            vBall.AddPath(Path.Left);
-                            break;
-                        }
+                            {
+                                var leftCoordinate = currentNode.GetLeftNeighborCoordinate();
+                                currentNode = GetSpecificNode(leftCoordinate.RowNumber, leftCoordinate.NodeNumber);
+                                vBall.AddPath(Path.Left);
+                                break;
+                            }
                         case Path.Right:
-                        {
-                            var rightCoordinate = currentNode.GetRightNeighborCoordinate();
-                            currentNode = GetSpecificNode(rightCoordinate.RowNumber, rightCoordinate.NodeNumber);
-                            vBall.AddPath(Path.Right);
-                            break;
-                        }
+                            {
+                                var rightCoordinate = currentNode.GetRightNeighborCoordinate();
+                                currentNode = GetSpecificNode(rightCoordinate.RowNumber, rightCoordinate.NodeNumber);
+                                vBall.AddPath(Path.Right);
+                                break;
+                            }
                         case Path.None:
                             throw new ArgumentOutOfRangeException();
                         default:
@@ -165,7 +165,7 @@ namespace GaltonBoard
             Console.WriteLine();
             var channels = _board.Last();
             var channelNumber = 1;
-            var middleChannel = (channels.Count / 2) + 1;
+            var middleChannel = channels.Count / 2 + 1;
             foreach (var end in channels)
             {
                 Console.ForegroundColor = ConsoleColor.White;
@@ -173,7 +173,7 @@ namespace GaltonBoard
                     Console.ForegroundColor = ConsoleColor.Blue;
 
                 var floatValue = (float)end.GetCount();
-                Console.WriteLine("{0,-20} {1,-15} {2,-10}", $"ch: {channelNumber}", $"{end.GetCount()}", $"%{((floatValue / _ballsFloat) * 100):n4}");
+                Console.WriteLine("{0,-20} {1,-15} {2,-10}", $"ch: {channelNumber}", $"{end.GetCount()}", $"%{floatValue / _ballsFloat * 100:n4}");
                 channelNumber++;
             }
 
@@ -203,7 +203,7 @@ namespace GaltonBoard
             Console.WriteLine($"*** Printing path of a ball in the least Probably Channel ***");
 
             var channels = _board.Last();
-            var middleChannel = (channels.Count / 2);
+            var middleChannel = channels.Count / 2;
             var selectedNode = ends.FirstOrDefault(_ => _.GetCount() > 0);
 
             if (selectedNode == null)

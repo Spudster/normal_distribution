@@ -1,10 +1,10 @@
-﻿namespace NormalDistribution
+﻿namespace GaltonBoard
 {
     internal class Program
     {
         private static void Main()
         {
-            var myGaltonBoard = new GaltonBoard(20, 1000000);
+            var myGaltonBoard = new GaltonBoard(20, 8000);
             myGaltonBoard.FlipBoard(3);
         }
     }

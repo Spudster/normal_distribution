@@ -1,4 +1,4 @@
-﻿namespace NormalDistribution
+﻿namespace GaltonBoard
 {
     internal class Ball
     {

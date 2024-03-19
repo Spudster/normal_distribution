@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace NormalDistribution
+namespace GaltonBoard
 {
     internal class GaltonBoard
     {
@@ -39,7 +39,7 @@ namespace NormalDistribution
 
                 for (var j = 0; j < nodesPerRow; j++)
                 {
-                    currentNodeRow.Add(new Node(new Coordinate { RowNumber = i, NodeNumber = j }));
+                    currentNodeRow.Add(new Node(j, new Coordinate { RowNumber = i, NodeNumber = j }));
                 }
 
                 _board.Add(currentNodeRow);
@@ -62,7 +62,7 @@ namespace NormalDistribution
             for (var i = 0; i < _intervals; i++)
             {
                 Console.WriteLine();
-                Console.WriteLine($"*** Flipping Board : {(i+1)}/{_intervals} times ***");
+                Console.WriteLine($"*** Flipping Board : {(i + 1)}/{_intervals} times ***");
                 RunSimulation();
             }
         }
@@ -83,12 +83,14 @@ namespace NormalDistribution
 
             var startNode = _board.First().First();
             var ballsProcessed = 1F;
+            var channelNode = _rows - 1;
 
             Parallel.For(0, _balls, _ =>
             {
-                var vBall = new Ball((int)ballsProcessed);
                 Console.Write("\r{0}   ", $"{((ballsProcessed / _ballsFloat) * 100):n2}% done ");
-                var currentNode = new Node(startNode.GetMyCoordinate());
+
+                var vBall = new Ball((int)ballsProcessed);
+                var currentNode = new Node(0, startNode.GetMyCoordinate());
 
                 for (var j = 0; j < _rows; j++)
                 {
@@ -97,7 +99,7 @@ namespace NormalDistribution
 
                     var currentRoll = RandomPath();
 
-                    if (j == _rows - 1)
+                    if (j == channelNode)
                     {
                         lock (startNode)
                         {
@@ -138,16 +140,16 @@ namespace NormalDistribution
         private void ResetBoard()
             => _board.Last().ForEach(_ => _.Reset());
 
-        private Node GetSpecificNode(int rowNumber, int nodeNumber) 
+        private Node GetSpecificNode(int rowNumber, int nodeNumber)
             => _board[rowNumber][nodeNumber - 1];
 
         private void PrintResults()
         {
             Console.WriteLine();
-            var ends = _board.Last();
+            var channels = _board.Last();
             var channelNumber = 1;
-            var middleChannel = (ends.Count / 2) + 1;
-            foreach (var end in ends)
+            var middleChannel = (channels.Count / 2) + 1;
+            foreach (var end in channels)
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 if (channelNumber == middleChannel)
@@ -158,7 +160,7 @@ namespace NormalDistribution
                 channelNumber++;
             }
 
-            var channelCount = ends.Select(_ => _.GetCount()).Sum();
+            var channelCount = channels.Select(_ => _.GetCount()).Sum();
             Console.WriteLine($"***********************************************");
             Console.WriteLine();
             Console.WriteLine($"{channelCount} Balls in channels");
@@ -166,48 +168,7 @@ namespace NormalDistribution
 
             Console.WriteLine($"*** Printing path of least Probably Channel Ball ***");
 
-            var lestNode = ends.FirstOrDefault(_ => _.GetCount() > 0);
-            if (lestNode == null) throw new Exception("Least Node Value cannot be null");
-
-            for (var i = 1; i < ends.Count - 1; i++)
-            {
-                var current = ends[i];
-                var next = ends[i + 1];
-
-                if (current.GetCount() == 0)
-                    continue;
-
-                if (next.GetCount() == 0)
-                    continue;
-
-                var currCount = current.GetCount();
-                var nextCount = next.GetCount();
-
-                if (currCount < nextCount)
-                {
-                    if (currCount < lestNode.GetCount())
-                    {
-                        lestNode = current;
-                        continue;
-                    }
-                }
-
-                if (currCount == nextCount)
-                {
-                    continue;
-                }
-
-                if (currCount > nextCount)
-                {
-                    if (nextCount < lestNode.GetCount())
-                    {
-                        lestNode = next;
-                    }
-                }
-            }
-
-            var b = lestNode.GetBallsInChannel().First();
-            b.ReplayPath();
+            PrintLeastProbablyBall(channels);
 
             //Console.WriteLine($"*** Printing path of Middle Channel ***");
             //var m = ends[(ends.Count / 2)];
@@ -220,7 +181,45 @@ namespace NormalDistribution
 
         }
 
-        private int RandomPath() 
+        private void PrintLeastProbablyBall(IReadOnlyList<Node> ends)
+        {
+            var channels = _board.Last();
+            var middleChannel = (channels.Count / 2);
+            var selectedNode = ends.FirstOrDefault(_ => _.GetCount() > 0);
+
+            if (selectedNode == null)
+                throw new Exception("Least Node Value cannot be null");
+
+            var startIndex = selectedNode.Id;
+
+            for (var i = startIndex; i < ends.Count - 1; i++)
+            {
+                var current = ends[i];
+
+                var currentCount = current.GetCount();
+                var selectedCount = selectedNode.GetCount();
+
+                if (currentCount == 0)
+                    continue;
+
+                if (currentCount < selectedCount)
+                    selectedNode = current;
+
+                if (currentCount == selectedCount)
+                {
+                    var currentAbs = Math.Abs(current.Id - middleChannel);
+                    var selectedAbs = Math.Abs(selectedNode.Id - middleChannel);
+
+                    if (currentAbs > selectedAbs)
+                        selectedNode = current;
+                }
+            }
+
+            var b = selectedNode.GetBallsInChannel().First();
+            b.ReplayPath();
+        }
+
+        private int RandomPath()
             => _random.Next(1, 101) <= 50 ? 0 : 1;
     }
 }

@@ -1,14 +1,16 @@
-﻿namespace NormalDistribution
+﻿namespace GaltonBoard
 {
     internal class Node
     {
+        public readonly int Id;
         private int _count;
         private List<Ball> _balls = new();
         private readonly List<Coordinate> _nodeNeighbors;
         private readonly Coordinate _nodeCoordinates;
 
-        public Node(Coordinate coordinate)
+        public Node(int id, Coordinate coordinate)
         {
+            Id = id;
             _nodeCoordinates = new Coordinate { RowNumber = coordinate.RowNumber, NodeNumber = coordinate.NodeNumber + 1 };
             _nodeNeighbors = new List<Coordinate>();
             CalculateNeighborCoordinates();

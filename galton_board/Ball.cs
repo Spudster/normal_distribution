@@ -20,7 +20,7 @@
         /// </summary>
         public void ReplayPath()
         {
-            Console.WriteLine($"ID: {_ballId}");
+            Console.WriteLine($"Ball ID: {_ballId}");
 
             for (var i = 0; i < _pathCoordinatesTaken.Count; i++)
             {

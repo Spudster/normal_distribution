@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Diagnostics;
 
 namespace GaltonBoard
 {
     internal class GaltonBoard
     {
         private readonly List<List<Node>> _board;
-        private readonly int _rows;
+        private readonly int _totalRows;
         private readonly int _balls;
         private readonly float _ballsFloat;
         private bool _boardBuilt;
@@ -14,9 +15,16 @@ namespace GaltonBoard
 
         public GaltonBoard(int rows = 14, int balls = 6000)
         {
+
+            if (rows % 2 != 0)
+            {
+                rows += 1;
+                Console.WriteLine($"Making Row # Even: from {rows - 1} t0 {rows}");
+            }
+
             _random = new Random();
             _board = new List<List<Node>>();
-            _rows = (rows + 1);
+            _totalRows = (rows + 1);
             _balls = balls;
             _ballsFloat = _balls;
             BuildBoard();
@@ -27,12 +35,12 @@ namespace GaltonBoard
         /// </summary>
         private void BuildBoard()
         {
-            Console.WriteLine($"*** Building Galton Board with {_rows - 1} rows and {_balls} balls");
+            Console.WriteLine($"*** Building Galton Board with {_totalRows - 1} rows and {_balls} balls");
 
             var sw = new Stopwatch();
             sw.Start();
 
-            for (var i = 0; i < _rows; i++)
+            for (var i = 0; i < _totalRows; i++)
             {
                 var nodesPerRow = i + 1;
                 var currentNodeRow = new List<Node>();
@@ -83,7 +91,7 @@ namespace GaltonBoard
 
             var startNode = _board.First().First();
             var ballsProcessed = 1F;
-            var channelNode = _rows - 1;
+            var channelNode = _totalRows - 1;
 
             Parallel.For(0, _balls, _ =>
             {
@@ -92,7 +100,7 @@ namespace GaltonBoard
                 var vBall = new Ball((int)ballsProcessed);
                 var currentNode = new Node(0, startNode.GetMyCoordinate());
 
-                for (var j = 0; j < _rows; j++)
+                for (var j = 0; j < _totalRows; j++)
                 {
                     if (j == 0)
                         currentNode = startNode;
@@ -165,24 +173,26 @@ namespace GaltonBoard
             Console.WriteLine();
             Console.WriteLine($"{channelCount} Balls in channels");
 
-
-            Console.WriteLine($"*** Printing path of least Probably Channel Ball ***");
-
             PrintLeastProbablyBall(channels);
+            PrintRandomChannelPath(channels);
 
-            //Console.WriteLine($"*** Printing path of Middle Channel ***");
-            //var m = ends[(ends.Count / 2)];
+        }
 
-            //for (var i = 0; i < 3; i++)
-            //{
-            //    var current = m.GetBallsInChannel()[i];
-            //    current.ReplayPath();
-            //}
-
+        private void PrintRandomChannelPath(List<Node> channels)
+        {
+            var rnd = -1;
+            var channelsWithValue = channels.Where(_ => _.GetCount() > 0).ToList();
+            rnd = _random.Next(0, channelsWithValue.Count);
+            var selection = channels[rnd];
+            Console.WriteLine($"*** Printing path of ball of a randomly selected channel: {selection.Id + 1}***");
+            selection.GetBallsInChannel().First().ReplayPath();
         }
 
         private void PrintLeastProbablyBall(IReadOnlyList<Node> ends)
         {
+
+            Console.WriteLine($"*** Printing path of a ball in the least Probably Channel ***");
+
             var channels = _board.Last();
             var middleChannel = (channels.Count / 2);
             var selectedNode = ends.FirstOrDefault(_ => _.GetCount() > 0);

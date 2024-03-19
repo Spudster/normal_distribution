@@ -4,7 +4,7 @@
     {
         private readonly int _ballId;
         private readonly List<Coordinate> _pathCoordinatesTaken = new();
-        private readonly List<string> _pathTaken = new();
+        private readonly List<Path> _pathTaken = new();
 
         public Ball(int ballId)
             => _ballId = ballId;
@@ -12,7 +12,7 @@
         public void AddCoordinate(Coordinate c)
             => _pathCoordinatesTaken.Add(c);
 
-        public void AddPath(string p)
+        public void AddPath(Path p)
             => _pathTaken.Add(p);
 
         /// <summary>
@@ -39,7 +39,7 @@
 
             foreach (var p in _pathTaken)
             {
-                if (p.StartsWith("l"))
+                if (p == Path.Left)
                 {
                     leftNum++;
                 }
@@ -49,7 +49,9 @@
                 }
             }
 
-            Console.WriteLine($"Paths Count: Lefts = {leftNum}, Rights = {rightNum}");
+            var absValue = Math.Abs(leftNum - rightNum);
+
+            Console.WriteLine($"Paths Count: Lefts = {leftNum}, Rights = {rightNum} with L - R Difference Absolute Value {absValue}");
         }
     }
 }

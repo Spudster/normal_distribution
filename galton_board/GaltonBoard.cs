@@ -120,17 +120,26 @@ namespace GaltonBoard
 
                     vBall.AddCoordinate(currentNode.GetMyCoordinate());
 
-                    if (currentRoll == 0)//left
+                    switch (currentRoll)
                     {
-                        var leftCoordinate = currentNode.GetLeftNeighborCoordinate();
-                        currentNode = GetSpecificNode(leftCoordinate.RowNumber, leftCoordinate.NodeNumber);
-                        vBall.AddPath("left");
-                    }
-                    else // right
-                    {
-                        var rightCoordinate = currentNode.GetRightNeighborCoordinate();
-                        currentNode = GetSpecificNode(rightCoordinate.RowNumber, rightCoordinate.NodeNumber);
-                        vBall.AddPath("right");
+                        case Path.Left:
+                        {
+                            var leftCoordinate = currentNode.GetLeftNeighborCoordinate();
+                            currentNode = GetSpecificNode(leftCoordinate.RowNumber, leftCoordinate.NodeNumber);
+                            vBall.AddPath(Path.Left);
+                            break;
+                        }
+                        case Path.Right:
+                        {
+                            var rightCoordinate = currentNode.GetRightNeighborCoordinate();
+                            currentNode = GetSpecificNode(rightCoordinate.RowNumber, rightCoordinate.NodeNumber);
+                            vBall.AddPath(Path.Right);
+                            break;
+                        }
+                        case Path.None:
+                            throw new ArgumentOutOfRangeException();
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
 
@@ -183,8 +192,8 @@ namespace GaltonBoard
             var rnd = -1;
             var channelsWithValue = channels.Where(_ => _.GetCount() > 0).ToList();
             rnd = _random.Next(0, channelsWithValue.Count);
-            var selection = channels[rnd];
-            Console.WriteLine($"*** Printing path of ball of a randomly selected channel: {selection.Id + 1}***");
+            var selection = channelsWithValue[rnd];
+            Console.WriteLine($"\n\n*** Printing path of ball of a randomly selected channel: {selection.Id + 1}***");
             selection.GetBallsInChannel().First().ReplayPath();
         }
 
@@ -229,7 +238,7 @@ namespace GaltonBoard
             b.ReplayPath();
         }
 
-        private int RandomPath()
-            => _random.Next(1, 101) <= 50 ? 0 : 1;
+        private Path RandomPath()
+            => _random.Next(1, 101) <= 50 ? Path.Left : Path.Right;
     }
 }

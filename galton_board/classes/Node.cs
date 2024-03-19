@@ -31,8 +31,11 @@
 
         public void CalculateNeighborCoordinates()
         {
-            _nodeNeighbors.Add(new Coordinate { RowNumber = _nodeCoordinates.RowNumber + 1, NodeNumber = _nodeCoordinates.NodeNumber });
-            _nodeNeighbors.Add(new Coordinate { RowNumber = _nodeCoordinates.RowNumber + 1, NodeNumber = _nodeCoordinates.NodeNumber + 1 });
+            var nextRow = _nodeCoordinates.RowNumber + 1;
+            var rightNeighbor = _nodeCoordinates.NodeNumber + 1;
+
+            _nodeNeighbors.Add(new Coordinate { RowNumber = nextRow, NodeNumber = _nodeCoordinates.NodeNumber });
+            _nodeNeighbors.Add(new Coordinate { RowNumber = nextRow, NodeNumber = rightNeighbor });
         }
 
         public Coordinate GetLeftNeighborCoordinate()

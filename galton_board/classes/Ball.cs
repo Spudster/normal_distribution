@@ -22,10 +22,11 @@
         {
             Console.WriteLine($"Ball ID: {_ballId}");
 
+            var lastElement = _pathCoordinatesTaken.Count - 1;
             for (var i = 0; i < _pathCoordinatesTaken.Count; i++)
             {
                 var p = _pathCoordinatesTaken[i];
-                if (i == _pathCoordinatesTaken.Count - 1)
+                if (i == lastElement)
                 {
                     Console.WriteLine($"Row: {p.RowNumber} Channel#: {p.NodeNumber} Path: *LANDED*");
                     continue;

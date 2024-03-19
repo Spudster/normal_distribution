@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace GaltonBoard.classes
 {
@@ -189,9 +188,8 @@ namespace GaltonBoard.classes
 
         private void PrintRandomChannelPath(List<Node> channels)
         {
-            var rnd = -1;
             var channelsWithValue = channels.Where(_ => _.GetCount() > 0).ToList();
-            rnd = _random.Next(0, channelsWithValue.Count);
+            var rnd = _random.Next(0, channelsWithValue.Count);
             var selection = channelsWithValue[rnd];
             Console.WriteLine($"\n\n*** Printing path of ball of a randomly selected channel: {selection.Id + 1}***");
             selection.GetBallsInChannel().First().ReplayPath();
@@ -224,14 +222,13 @@ namespace GaltonBoard.classes
                 if (currentCount < selectedCount)
                     selectedNode = current;
 
-                if (currentCount == selectedCount)
-                {
-                    var currentAbs = Math.Abs(current.Id - middleChannel);
-                    var selectedAbs = Math.Abs(selectedNode.Id - middleChannel);
+                if (currentCount != selectedCount) continue;
 
-                    if (currentAbs > selectedAbs)
-                        selectedNode = current;
-                }
+                var currentAbs = Math.Abs(current.Id - middleChannel);
+                var selectedAbs = Math.Abs(selectedNode.Id - middleChannel);
+
+                if (currentAbs > selectedAbs)
+                    selectedNode = current;
             }
 
             var b = selectedNode.GetBallsInChannel().First();

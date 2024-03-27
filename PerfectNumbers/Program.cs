@@ -11,7 +11,7 @@ namespace PerfectNumbers
             var max = new BigInteger(50000000000);
             BigInteger chunkSize = 10000; // Adjust the chunk size as needed
             var tasks = new List<Task>();
-            BigInteger start = 33550336;
+            BigInteger start = 2;
             while (start < max)
             {
                 var end = start + chunkSize - 1;
@@ -45,20 +45,21 @@ namespace PerfectNumbers
 
         private static bool IsPerfectNumber(BigInteger number)
         {
-            Console.Write("\r{0}   ", $"Working on number  {number}");
+            Console.WriteLine("\r{0}   ", $"Working on number  {number}");
             BigInteger sum = 1; // Start with 1 since every number is divisible by 1
-            BigInteger sqrt = (BigInteger)Math.Sqrt((double)number);
+            var sqrt = (BigInteger)Math.Sqrt((double)number);
+
+
             for (BigInteger i = 2; i <= sqrt; i++)
             {
-                if (number % i == 0)
-                {
-                    sum += i;
-                    if (i != number / i) // Add the other factor if it's not the square root
-                    {
-                        sum += number / i;
-                    }
-                }
+                if (number % i != 0) continue;
+                sum += i;
+                var div = number / i;
+
+                if (i != div) // Add the other factor if it's not the square root
+                    sum += div;
             }
+
             return sum == number;
         }
     }

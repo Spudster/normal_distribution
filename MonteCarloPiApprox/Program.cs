@@ -1,17 +1,14 @@
-﻿using System;
-using System.Numerics;
-
-namespace MonteCarloPiApprox
+﻿namespace MonteCarloPiApprox
 {
     internal class Program
     {
         private static readonly Random XCoord = new();
         private static readonly Random YCoord = new();
-        static void Main(string[] args)
+        static void Main()
         {
             double counter = 0;
             const double range = 5000;
-            double printInterval = (range *.02);
+            double printInterval = (range * .02);
             for (double i = 0; i < range; i++)
             {
 

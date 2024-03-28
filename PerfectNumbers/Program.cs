@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.Design;
-using System.Numerics;
+﻿using System.Numerics;
 
 
 namespace PerfectNumbers

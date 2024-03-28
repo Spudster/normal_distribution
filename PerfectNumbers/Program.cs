@@ -45,7 +45,7 @@ namespace PerfectNumbers
 
         private static bool IsPerfectNumber(BigInteger number)
         {
-            Console.WriteLine("\r{0}   ", $"Working on number  {number}");
+            //Console.WriteLine("\r{0}   ", $"Working on number  {number}");
             BigInteger sum = 1; // Start with 1 since every number is divisible by 1
             var sqrt = (BigInteger)Math.Sqrt((double)number);
 
